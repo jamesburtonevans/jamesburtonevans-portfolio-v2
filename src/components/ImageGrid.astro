@@ -1,0 +1,129 @@
+---
+interface Props {
+  images: {
+    src: ImageMetadata;
+    alt: string;
+    caption?: string;
+  }[];
+  variant?: 'default' | 'mockup' | 'scroll';
+}
+
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+const { images, variant = 'default' } = Astro.props;
+---
+
+<div class={`image-grid image-grid--${variant}`} data-count={images.length}>
+  {images.map(({ src, alt, caption }) => (
+    <figure class="image-grid-item">
+      <Image src={src} alt={alt} />
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  ))}
+</div>
+
+<style>
+  /*  DEFAULT  */
+  .image-grid--default {
+    display: flex;
+    gap: var(--space-4);
+    margin: var(--space-8) 0;
+    flex-wrap: wrap;
+  }
+
+  .image-grid--default .image-grid-item {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .image-grid--default .image-grid-item img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .image-grid--default[data-count="1"] .image-grid-item {
+    flex: 0 0 100%;
+  }
+
+  /* MOCKUP  */
+  .image-grid--mockup {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: var(--space-6);
+    margin: var(--space-12) 0;
+    flex-wrap: wrap;
+  }
+
+  .image-grid--mockup .image-grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .image-grid--mockup .image-grid-item img {
+    height: 26rem;
+    width: auto;
+    border-radius: 0;
+    border: none;
+    filter: drop-shadow(0 1.5rem 3rem rgba(0, 0, 0, 0.6));
+    transition: transform 200ms ease, filter 200ms ease;
+  }
+
+  .image-grid--mockup .image-grid-item:hover img {
+    transform: translateY(-0.5rem);
+    filter: drop-shadow(0 2rem 4rem rgba(0, 0, 0, 0.8));
+  }
+
+  /*  SCROLL  */
+  .image-grid--scroll {
+    display: flex;
+    gap: var(--space-4);
+    margin: var(--space-12) auto;
+    width: fit-content;
+    max-width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: var(--space-4) var(--space-2);
+    scrollbar-width: none;
+    filter: drop-shadow(0 1.5rem 3rem rgba(0, 0, 0, 0.6));
+  }
+
+  .image-grid--scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .image-grid--scroll .image-grid-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .image-grid--scroll .image-grid-item img {
+    height: 22rem;
+    width: auto;
+    border-radius: 0;
+    border: none;
+    transition: transform 200ms ease, filter 200ms ease;
+  }
+
+  .image-grid--scroll .image-grid-item:hover img {
+    transform: translateY(-0.5rem);
+  }
+
+  /*  SHARED  */
+  figcaption {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+</style>

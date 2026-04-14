@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const categories = [...new Set(allProjects.map(p => p.data.category))];
+---
+
+<Layout title="Work">
+  <section class="projects-hero">
+    <p class="projects-secondary">My Projects</p>
+    <h1>The Work</h1>
+    <p class="projects-sub">A selection of my work spanning UX, development, music, and creative experimentation.</p>
+  </section>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    {categories.map(cat => (
+      <button class="filter-btn" data-filter={cat}>{cat}</button>
+    ))}
+  </div>
+  <div class="project-grid-outer">
+    <div class="project-grid project-grid--scroll" id="project-grid">
+      {allProjects.map(project => (
+        <a
+          href={`/projects/${project.id}`}
+          class="project-card"
+          data-category={project.data.category}
+        >
+          {project.data.cover && (
+            <Image src={project.data.cover} alt={project.data.title} />
+          )}
+          <div class="project-card-body">
+            <span class="project-date">
+              {project.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+            </span>
+            <span class="project-tag">{project.data.category}</span>
+            <h3>{project.data.title}</h3>
+            <p>{project.data.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.project-card');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = (btn as HTMLElement).dataset.filter;
+
+      cards.forEach(card => {
+        if (filter === 'all' || (card as HTMLElement).dataset.category === filter) {
+          (card as HTMLElement).style.display = '';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .projects-hero {
+    padding: var(--space-16) 0 var(--space-12);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-8);
+  }
+
+  .projects-secondary {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    margin-bottom: var(--space-3);
+  }
+
+  .projects-hero h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-5xl);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: var(--space-4);
+    text-decoration: underline;
+    text-decoration-color: var(--color-secondary);
+    text-underline-offset: 6px;
+  }
+
+  .projects-sub {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 480px;
+  }
+
+  .project-grid-outer {
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-bottom: var(--space-8);
+  }
+
+  .project-grid-outer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-grid--scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--space-6);
+    padding: var(--space-2) var(--space-1);
+    width: fit-content;
+    scroll-snap-type: x mandatory;
+    grid-template-columns: unset;
+  }
+
+  .project-grid--scroll .project-card {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+  }
+</style>

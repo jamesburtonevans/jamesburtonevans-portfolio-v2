@@ -1,0 +1,182 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout title={project.data.title}>
+  <article class="case-study">
+
+    <header class="case-study-header">
+      {project.data.cover && (
+        <Image
+          class="case-study-cover"
+          src={project.data.cover}
+          alt={project.data.title}
+        />
+      )}
+      <div class="case-study-meta">
+        <span class="project-tag">{project.data.category}</span>
+        <p class="case-study-date">
+          {project.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+        </p>
+        <h1>{project.data.title}</h1>
+        <p class="case-study-description">{project.data.description}</p>
+        {project.data.tools && (
+          <ul class="tags">
+            {project.data.tools.map((tool: string) => <li>{tool}</li>)}
+          </ul>
+        )}
+      </div>
+    </header>
+
+    <div class="case-study-body">
+      <Content />
+    </div>
+
+    <footer class="case-study-footer">
+      <a href="/projects">&larr; Back to Work</a>
+    </footer>
+
+  </article>
+</Layout>
+
+<style>
+  .case-study {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .case-study ul {
+    list-style: circle;
+  }
+
+  .case-study li {
+    margin: 0.8rem;
+  }
+
+  .case-study .tags {
+    list-style: none;
+  }
+
+  .case-study-header {
+    position: relative;
+    padding-top: 14rem;
+    margin-bottom: var(--space-12);
+  }
+
+  .case-study-cover {
+    position: absolute;
+    top: calc(-1 * var(--space-8));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    max-width: 1100px;
+    height: 25rem;
+    object-fit: cover;
+    object-position: center bottom;
+    opacity: 0.7;
+    mask-image: linear-gradient(to bottom, white 30%, transparent 100%);
+    z-index: 0;
+  }
+
+  .case-study-meta {
+    position: relative;
+    z-index: 1;
+    margin-bottom: var(--space-12);
+  }
+
+  .case-study-meta h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    line-height: 1.2;
+    margin: var(--space-2) 0 var(--space-4);
+    text-decoration: underline;
+    text-decoration-color: var(--color-secondary);
+    text-underline-offset: 6px;
+  }
+
+  .case-study-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: var(--space-2);
+  }
+
+  .case-study-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin-bottom: var(--space-4);
+  }
+
+  .case-study-body {
+    font-size: var(--text-lg);
+    line-height: 1.8;
+  }
+
+  .case-study-body :global(h2) {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    margin: var(--space-12) 0 var(--space-4);
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-secondary);
+    text-underline-offset: 4px;
+  }
+
+  .case-study-body :global(h3) {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin: var(--space-8) 0 var(--space-3);
+    color: var(--color-accent-hover);
+  }
+
+  .case-study-body :global(p) {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .case-study-body :global(img) {
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin: var(--space-8) 0;
+    border: 1px solid var(--color-border);
+  }
+
+  .case-study-body :global(blockquote) {
+    border-left: 2px solid var(--color-accent);
+    padding-left: var(--space-6);
+    margin: var(--space-8) 0;
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-text);
+    font-style: italic;
+  }
+
+  .case-study-body :global(li::marker) {
+    color: var(--color-accent);
+  }
+
+  .case-study-footer {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+</style>
