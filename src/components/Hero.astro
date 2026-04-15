@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
-import cover from '../assets/images/cover.jpeg';
-import headshot from '../assets/images/headshot_james-evans.png';
+import { Image } from "astro:assets";
+import cover from "../assets/images/cover.jpeg";
+import headshot from "../assets/images/headshot_james-evans.png";
 ---
 
 <Image class="page-cover" src={cover} alt="" />
@@ -9,10 +9,12 @@ import headshot from '../assets/images/headshot_james-evans.png';
 <section class="hero">
   <div class="hero-text">
     <h2>Hi, it's</h2>
-    <h1>James Evans</h1>
+    <h1>James Evans.</h1>
     <p class="disciplines">UX Engineer | Multi-Disciplinary Creative</p>
     <slot />
-    <a class="resume-download" href="/james-evans_resume.pdf" download>My Resume</a>
+    <a class="resume-download" href="/james-evans_resume.pdf" download
+      >My Resume</a
+    >
   </div>
   <Image class="headshot" src={headshot} alt="James Evans" />
 </section>

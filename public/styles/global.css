@@ -6,7 +6,7 @@
   --color-border:       #3d3330;
   --color-text:         #e8d5b0;
   --color-text-muted:   #a89a84;
-  --color-accent:       #473131;
+  --color-accent:       #623b3b;
   --color-accent-hover: #a85858;
   --color-accent-soft:  rgba(140, 74, 74, 0.2);
   --color-secondary:    #3e4e3e;
@@ -18,14 +18,14 @@
   --font-serif:  'Instrument Serif', serif;
 
   --text-xs:   0.75rem;
-  --text-sm:   0.875rem;
+  --text-sm:   0.9rem;
   --text-base: 1rem;
   --text-lg:   1.125rem;
   --text-xl:   1.25rem;
-  --text-2xl:  1.5rem;
-  --text-3xl:  1.875rem;
-  --text-4xl:  2.25rem;
-  --text-5xl:  3rem;
+  --text-2xl:  1.9rem;
+  --text-3xl:  4rem;
+  --text-4xl:  6.5rem;
+  --text-5xl:  7rem;
 
   --space-1:  0.25rem;
   --space-2:  0.5rem;
@@ -37,8 +37,8 @@
   --space-16: 4rem;
   --space-24: 6rem;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --radius-sm: 1px;
+  --radius-md: 2px;
   --radius-lg: 16px;
 
   --transition: 200ms ease;
@@ -57,6 +57,8 @@ html {
 
 body {
   background-color: var(--color-bg);
+  background-image: radial-gradient(var(--color-bg-soft) 2px, transparent 1px);
+  background-size: 30px 30px;;
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -151,7 +153,7 @@ main {
   height: 20rem;
   object-fit: cover;
   object-position: center bottom;
-  opacity: 0.7;
+  opacity: 0.4;
   mask-image: linear-gradient(to bottom, white 30%, transparent 100%);
   z-index: 0;
 }
@@ -187,7 +189,7 @@ main {
 }
 
 .disciplines {
-  font-size: var(--text-sm);
+  font-size: var(--text-lg);
   color: var(--color-secondary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -421,6 +423,8 @@ main {
 .contact ul a:hover {
   color: var(--color-accent);
 }
+
+
 
 /* Responsive */
 @media (max-width: 768px) {
