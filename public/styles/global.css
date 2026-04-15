@@ -152,7 +152,7 @@ main {
   width: 100%;
   height: 20rem;
   object-fit: cover;
-  object-position: center bottom;
+  object-position: center center;
   opacity: 0.4;
   mask-image: linear-gradient(to bottom, white 30%, transparent 100%);
   z-index: 0;
@@ -164,7 +164,7 @@ main {
   justify-content: space-between;
   gap: var(--space-12);
   margin-bottom: var(--space-12);
-  padding-top: 10rem;
+  padding-top: 5rem;
   position: relative;
   z-index: 1;
 }
@@ -212,6 +212,7 @@ main {
 }
 
 .headshot {
+  align-self: first baseline;
   width: 220px;
   height: 220px;
   object-fit: cover;
