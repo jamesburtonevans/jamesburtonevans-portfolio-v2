@@ -6,10 +6,10 @@
   --color-border:       #3d3330;
   --color-text:         #e8d5b0;
   --color-text-muted:   #a89a84;
-  --color-accent:       #623b3b;
+  --color-accent:       #915757;
   --color-accent-hover: #a85858;
   --color-accent-soft:  rgba(140, 74, 74, 0.2);
-  --color-secondary:    #3e4e3e;
+  --color-secondary:    #5c6f5c;
   --color-secondary-soft: rgba(90, 122, 90, 0.15);
   --color-glass-bg:     rgba(46, 38, 34, 0.6);
   --color-glass-border: rgba(140, 74, 74, 0.12);
@@ -17,11 +17,11 @@
   --font-sans:   'Instrument Sans', sans-serif;
   --font-serif:  'Instrument Serif', serif;
 
-  --text-xs:   0.75rem;
-  --text-sm:   0.9rem;
-  --text-base: 1rem;
-  --text-lg:   1.125rem;
-  --text-xl:   1.25rem;
+  --text-xs:   1rem;
+  --text-sm:   1.2rem;
+  --text-base: 1.5rem;
+  --text-lg:   1.6rem;
+  --text-xl:   1.9rem;
   --text-2xl:  1.9rem;
   --text-3xl:  4rem;
   --text-4xl:  6.5rem;
@@ -213,8 +213,10 @@ main {
 
 .headshot {
   align-self: first baseline;
-  width: 220px;
-  height: 220px;
+  min-width: 220px;
+  max-width: 440px;
+  min-height: 220px;
+  max-height: 440px;
   object-fit: cover;
   border-radius: 50%;
   border: 1px solid var(--color-border);
@@ -243,6 +245,7 @@ main {
   display: flex;
   gap: var(--space-12);
   align-items: flex-start;
+  flex-direction: column;
 }
 
 .about-bio {
@@ -435,8 +438,9 @@ main {
   }
 
   .headshot {
-    width: 120px;
-    height: 120px;
+    width: 360px;
+    height: 360px;
+    margin-inline: auto;
   }
 
   .hero-text h1 {
